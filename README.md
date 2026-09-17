@@ -8,7 +8,7 @@ Existing floor-plan localization benchmarks predominantly focus on residential-s
 
 ## 📢 Dataset Release
 
-**The SlugTrails dataset will be released soon.**
+**The SlugTrails dataset will be released soon. Feel free to leave a message via Github issues or send an email to ychen827@ucsc.edu to let the authors to express your interest!**
 
 The dataset will be hosted on Hugging Face:
 
