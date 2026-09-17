@@ -1,14 +1,14 @@
-# 🐌 SlugTrail
+# 🐌 SlugTrails
 
-**SlugTrail: Benchmarking Floor-Plan Localization in Large Indoor Spaces**
+**SlugTrails: Benchmarking Floor-Plan Localization in Large Indoor Spaces**
 
-SlugTrail is a benchmark and dataset for **floor-plan-based indoor visual localization** in large-scale public buildings. It provides floor-plan-aligned egocentric recordings, standardized evaluation protocols, and benchmarking tools for evaluating localization methods under realistic indoor navigation conditions.
+SlugTrails is a benchmark and dataset for **floor-plan-based indoor visual localization** in large-scale public buildings. It provides floor-plan-aligned egocentric recordings, standardized evaluation protocols, and benchmarking tools for evaluating localization methods under realistic indoor navigation conditions.
 
-Existing floor-plan localization benchmarks predominantly focus on residential-scale environments. SlugTrail aims to move evaluation toward larger and more realistic indoor environments, with particular attention to **circulation spaces** such as corridors, lobbies, and connecting passages, where structural repetition and spatial ambiguity pose significant challenges for localization.
+Existing floor-plan localization benchmarks predominantly focus on residential-scale environments. SlugTrails aims to move evaluation toward larger and more realistic indoor environments, with particular attention to **circulation spaces** such as corridors, lobbies, and connecting passages, where structural repetition and spatial ambiguity pose significant challenges for localization.
 
 ## 📢 Dataset Release
 
-**The SlugTrail dataset will be released soon.**
+**The SlugTrails dataset will be released soon.**
 
 The dataset will be hosted on Hugging Face:
 
@@ -18,7 +18,7 @@ The release will include dataset documentation, download instructions, data form
 
 ## 🧪 Benchmark
 
-SlugTrail benchmarks a diverse set of state-of-the-art floor-plan localization methods across multiple localization tasks and observation settings.
+SlugTrails benchmarks a diverse set of state-of-the-art floor-plan localization methods across multiple localization tasks and observation settings.
 
 Our benchmark is designed to study:
 
@@ -32,7 +32,7 @@ Benchmarking code, evaluation scripts, and baseline instructions will be release
 
 ## 🏗️ Dataset
 
-SlugTrail contains egocentric recordings collected in large public buildings and aligned with architectural floor plans.
+SlugTrails contains egocentric recordings collected in large public buildings and aligned with architectural floor plans.
 
 The benchmark focuses on realistic indoor navigation trajectories, particularly within circulation spaces where people move between functional destinations.
 
@@ -48,17 +48,17 @@ Evaluation tools and instructions for reproducing the benchmark will be released
 
 ## 📜 License
 
-The SlugTrail dataset is released under the **Creative Commons Attribution 4.0 International (CC BY 4.0)** license.
+The SlugTrails dataset is released under the **Creative Commons Attribution 4.0 International (CC BY 4.0)** license.
 
 Licensing information for the benchmark code will be provided separately.
 
 ## ✏️ Citation
 
-If you use SlugTrail in your research, please cite our paper:
+If you use SlugTrails in your research, please cite our paper:
 
 ```bibtex
 @article{slugtrail2026,
-  title   = {SlugTrail: Benchmarking Floor-Plan Localization in Large Indoor Spaces},
+  title   = {SlugTrails: Benchmarking Floor-Plan Localization in Large Indoor Spaces},
   author  = {...},
   year    = {2026}
 }
