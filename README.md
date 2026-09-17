@@ -1,4 +1,5 @@
-# 🐌 SlugTrails
+# <img src="./slugicon_nobg.png" alt="SlugTrails icon" width="80" />    SlugTrails
+
 
 **SlugTrails: Benchmarking Floor-Plan Localization in Large Indoor Spaces**
 
