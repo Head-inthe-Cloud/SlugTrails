@@ -1,7 +1,8 @@
 # <img src="./slugicon_nobg.png" alt="SlugTrails icon" width="80" />    SlugTrails
 
+## SlugTrails: An Egocentric Benchmark for Floor Plan Localization in Large Buildings
 
-**SlugTrails: Benchmarking Floor-Plan Localization in Large Indoor Spaces**
+### [ArXiv preprint](https://arxiv.org/abs/2609.19876)
 
 SlugTrails is a benchmark and dataset for **floor-plan-based indoor visual localization** in large-scale public buildings. It provides floor-plan-aligned egocentric recordings, standardized evaluation protocols, and benchmarking tools for evaluating localization methods under realistic indoor navigation conditions.
 
@@ -58,10 +59,10 @@ Licensing information for the benchmark code will be provided separately.
 If you use SlugTrails in your research, please cite our paper:
 
 ```bibtex
-@article{slugtrail2026,
-  title   = {SlugTrails: Benchmarking Floor-Plan Localization in Large Indoor Spaces},
-  author  = {...},
-  year    = {2026}
+@inproceedings{Cheng2026SlugTrailsAE,
+  title={SlugTrails: An Egocentric Benchmark for Floor Plan Localization in Large Buildings},
+  author={Yunqian Cheng and Roberto Manduchi},
+  year={2026}
 }
 ```
 
