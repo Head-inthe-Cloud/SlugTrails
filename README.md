@@ -1,15 +1,11 @@
 <div align="center">
 
-<img src="./slugicon_nobg.png" alt="SlugTrails icon" width="80" />
-
-# SlugTrails: An Egocentric Benchmark for Floor Plan Localization in Large Buildings
+# <img src="media/slugicon_nobg.png" alt="SlugTrails icon" width="72" align="absmiddle"> SlugTrails: An Egocentric Benchmark for Floor Plan Localization in Large Buildings
 
 <a href="https://arxiv.org/abs/2609.19876"><img src="https://img.shields.io/badge/Paper-arXiv-red" alt="Paper"></a>
 <a href="https://huggingface.co/datasets/Head-inthe-Cloud/SlugTrails"><img src="https://img.shields.io/badge/Dataset-Hugging%20Face-yellow" alt="Hugging Face dataset"></a>
 
-[![Rerun viewer](docs/rerun-viewer.jpg)](docs/rerun-viewer.mp4)
-
-Rerun viewer on a SlugTrails 1.0 recording: point cloud, floor plan, and anonymized RGB.
+<a href="#rerun-viewer"><img src="media/thumbnail.png" alt="SlugTrails" width="720"></a>
 
 </div>
 
@@ -25,15 +21,24 @@ Existing floor-plan localization benchmarks predominantly focus on residential-s
 
 About 10 GB. Anonymized RGB, Project Aria MPS trajectories, semidense point clouds, floor-plan maps, factor-graph ground truth in the map frame, and official evaluation / finetune manifests. File layout and checksums are on the dataset card (`README.md` on the Hub).
 
-Install the Hub CLI (`pip install -U huggingface_hub`), then download the whole package:
+![Floor plans of BE_2, E2_3, and PS_2 beside a household apartment, same 10 m scale](media/floor_plans.png)
+
+BE_2, E2_3, and PS_2 drawn at the same scale as a household apartment. The bar is 10 m. Walks, panorama sweeps, and start/end marks are on the plans.
+
+The download command is `hf` (the `huggingface-cli` name was removed in `huggingface_hub` 1.0). Install it, then download the whole package:
+
+```bash
+# recommended
+curl -LsSf https://hf.co/cli/install.sh | bash
+# or, inside an existing Python env:
+pip install -U huggingface_hub
+```
 
 ```bash
 hf download Head-inthe-Cloud/SlugTrails \
   --repo-type dataset \
   --local-dir ./slugtrails-1.0
 ```
-
-Older installs still accept `huggingface-cli download` with the same flags.
 
 ### Where to put it
 
@@ -94,6 +99,12 @@ python -m slugtrails.view_map --root ./slugtrails-1.0 --smoke   # load check, no
 
 ### Rerun (point cloud + blurred RGB + map)
 
+<a id="rerun-viewer"></a>
+
+https://github.com/user-attachments/assets/ae455c86-2661-4c6b-bfd2-48f18390a5b4
+
+Rerun viewer on a SlugTrails 1.0 recording: point cloud, floor plan, and anonymized RGB.
+
 Needs the `[rerun]` extra (`rerun-sdk`, `projectaria-tools`).
 
 ```bash
@@ -119,6 +130,8 @@ python -m slugtrails.view_rerun --root ./slugtrails-1.0 --recording BE_0_0 --web
 python -m slugtrails.view_rerun --root ./slugtrails-1.0 --recording BE_0_0 \
   --rrd BE_0_0.rrd --max-frames 300
 ```
+
+A `.rrd` file is a Rerun recording: the logged point cloud, floor plan, and frames, saved instead of opening a window. Open it later with `rerun BE_0_0.rrd`.
 
 A local Aria `.vrs` is optional. Pass `--vrs /path/to/BE_0_0.vrs` or set `SLUGTRAILS_ARIA_ROOT` to a directory that contains `BE/`, `E2/`, or `PS/` with the matching `.vrs`. That file supplies camera calibration for the 3D frustum. SlugTrails 1.0 already includes the anonymized MP4; the video pane uses that file.
 
