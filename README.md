@@ -1,8 +1,17 @@
-# <img src="./slugicon_nobg.png" alt="SlugTrails icon" width="80" />    SlugTrails
+<div align="center">
 
-## SlugTrails: An Egocentric Benchmark for Floor Plan Localization in Large Buildings
+<img src="./slugicon_nobg.png" alt="SlugTrails icon" width="80" />
 
-### [ArXiv preprint](https://arxiv.org/abs/2609.19876) · [Hugging Face dataset](https://huggingface.co/datasets/Head-inthe-Cloud/SlugTrails)
+# SlugTrails: An Egocentric Benchmark for Floor Plan Localization in Large Buildings
+
+<a href="https://arxiv.org/abs/2609.19876"><img src="https://img.shields.io/badge/Paper-arXiv-red" alt="Paper"></a>
+<a href="https://huggingface.co/datasets/Head-inthe-Cloud/SlugTrails"><img src="https://img.shields.io/badge/Dataset-Hugging%20Face-yellow" alt="Hugging Face dataset"></a>
+
+[![Rerun viewer](docs/rerun-viewer.jpg)](docs/rerun-viewer.mp4)
+
+Rerun viewer on a SlugTrails 1.0 recording: point cloud, floor plan, and anonymized RGB.
+
+</div>
 
 SlugTrails is a benchmark and dataset for **floor-plan-based indoor visual localization** in large-scale public buildings. It provides floor-plan-aligned egocentric recordings, standardized evaluation protocols, and tools for exploring the public **SlugTrails 1.0** package.
 
