@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slugtrails"
+version = "1.0.0"
+description = "SlugTrails 1.0 public viewers for the Hugging Face dataset package."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "CC BY 4.0" }
+authors = [{ name = "Yunqian Cheng and Roberto Manduchi" }]
+keywords = ["indoor-localization", "floorplan", "aria", "dataset", "rerun"]
+dependencies = [
+  "numpy>=1.20.0",
+  "matplotlib>=3.5.0",
+  "opencv-python>=4.5.0",
+]
+
+[project.optional-dependencies]
+rerun = [
+  "rerun-sdk>=0.22.0",
+  "projectaria-tools>=1.6.0",
+]
+
+[project.scripts]
+slugtrails-view-map = "slugtrails.view_map:main"
+slugtrails-view-rerun = "slugtrails.view_rerun:main"
+
+[project.urls]
+Homepage = "https://github.com/Head-inthe-Cloud/SlugTrails"
+Dataset = "https://huggingface.co/datasets/Head-inthe-Cloud/SlugTrails"
+Paper = "https://arxiv.org/abs/2609.19876"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["slugtrails*"]
+
+[tool.setuptools.package-data]
+slugtrails = ["py.typed"]
