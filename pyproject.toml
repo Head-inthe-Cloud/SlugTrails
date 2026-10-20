@@ -22,10 +22,14 @@ rerun = [
   "rerun-sdk>=0.22.0",
   "projectaria-tools>=1.6.0",
 ]
+vrs = [
+  "projectaria-tools>=1.6.0",
+]
 
 [project.scripts]
 slugtrails-view-map = "slugtrails.view_map:main"
 slugtrails-view-rerun = "slugtrails.view_rerun:main"
+slugtrails-undistort-vrs = "slugtrails.undistort_vrs:main"
 
 [project.urls]
 Homepage = "https://github.com/Head-inthe-Cloud/SlugTrails"

@@ -19,7 +19,18 @@ Existing floor-plan localization benchmarks predominantly focus on residential-s
 
 **https://huggingface.co/datasets/Head-inthe-Cloud/SlugTrails**
 
-About 10 GB. Anonymized RGB, Project Aria MPS trajectories, semidense point clouds, floor-plan maps, factor-graph ground truth in the map frame, and official evaluation / finetune manifests. File layout and checksums are on the dataset card (`README.md` on the Hub).
+Anonymized RGB, a blurred Aria VRS per session, Project Aria MPS trajectories, semidense point clouds, floor-plan maps, factor-graph ground truth in the map frame, and official evaluation / finetune manifests. File layout and checksums are on the dataset card (`README.md` on the Hub).
+
+**Undistorted** means the linear pinhole image. **Fisheye** means the native distorted image stored in the VRS. Filenames say `undistorted`; the VRS paths do not repeat the word fisheye.
+
+Each recording has an undistorted RGB video and a fisheye VRS:
+
+- `rgb/camera-rgb_undistorted.mp4` is the upright undistorted RGB video (1408×1408). Blur was applied on these undistorted frames and is already baked into the MP4.
+- `vrs/recording.vrs` is the fisheye file. It contains color `camera-rgb` plus grayscale `camera-slam-left` and `camera-slam-right`. Those three streams are blurred. IMU, audio, barometer, and calibration stay in the file. Eye-tracking images are copied through and are not blurred.
+
+Fisheye blur labels ship under `vrs/blur/<stream>/boxes.json` for `camera-rgb`, `camera-slam-left`, and `camera-slam-right`. They were drawn on the upright fisheye image. The RGB fisheye list also includes faces at the rim of the fisheye, which fall outside the undistorted view. A `face` box is an ellipse and a `plate` box is a rectangle. A box also covers the next 30 unlabeled frames. `vrs/ORIENTATION.json` records the Gen1 upright rotation used when those boxes were applied.
+
+Undistorting the VRS does not rebuild the shipped RGB MP4 (that blur was done in undistorted space). Undistorted SLAM MP4s are not in the download. Build an undistorted view of the already-blurred SLAM frames with the script below. The original unblurred VRS is not in the package. Pair the fisheye frames with the calibration inside the VRS. Pair the RGB MP4 with `metadata/camera-rgb_intrinsics_undistorted.json`.
 
 ![Floor plans of BE_2, E2_3, and PS_2 beside a household apartment, same 10 m scale](media/floor_plans.png)
 
@@ -50,8 +61,19 @@ slugtrails-1.0/
   RELEASE.json
   README.md
   manifests/
-  maps/<scene>/          # BE_0, BE_1, BE_2, E2_2, E2_3, PS_2
-  recordings/<id>/       # BE_0_0, BE_1_0, BE_2_0, E2_2_0, E2_3_0, PS_2_0
+  maps/<scene>/                 # BE_0, BE_1, BE_2, E2_2, E2_3, PS_2
+  recordings/<id>/              # BE_0_0, BE_1_0, BE_2_0, E2_2_0, E2_3_0, PS_2_0
+    rgb/
+      camera-rgb_undistorted.mp4              # blur baked in undistorted space
+      camera-rgb_frame_timestamps.npy
+    vrs/recording.vrs                         # blurred fisheye RGB + both SLAM cameras
+    vrs/blur/camera-rgb/boxes.json            # fisheye RGB labels
+    vrs/blur/camera-slam-left/boxes.json
+    vrs/blur/camera-slam-right/boxes.json
+    vrs/ORIENTATION.json
+    mps/{closed,open,slam}/     # trajectories + semidense_points.csv.gz
+    gt_aligned/
+    metadata/                   # undistorted RGB intrinsics
 ```
 
 If you omit `--root`, both viewers search the current working directory for:
@@ -82,7 +104,7 @@ pip install -e .
 pip install -e ".[rerun]"
 ```
 
-Console scripts after install: `slugtrails-view-map`, `slugtrails-view-rerun`. The `python -m` forms below work the same.
+Console scripts after install: `slugtrails-view-map`, `slugtrails-view-rerun`, and (with `.[vrs]`) `slugtrails-undistort-vrs`. The `python -m` forms below work the same.
 
 ### 2D floor plan
 
@@ -133,7 +155,37 @@ python -m slugtrails.view_rerun --root ./slugtrails-1.0 --recording BE_0_0 \
 
 A `.rrd` file is a Rerun recording: the logged point cloud, floor plan, and frames, saved instead of opening a window. Open it later with `rerun BE_0_0.rrd`.
 
-A local Aria `.vrs` is optional. Pass `--vrs /path/to/BE_0_0.vrs` or set `SLUGTRAILS_ARIA_ROOT` to a directory that contains `BE/`, `E2/`, or `PS/` with the matching `.vrs`. That file supplies camera calibration for the 3D frustum. SlugTrails 1.0 already includes the anonymized MP4; the video pane uses that file.
+The video pane uses `recordings/<id>/rgb/camera-rgb_undistorted.mp4`. For the 3D camera frustum, pass the package VRS: `--vrs ./slugtrails-1.0/recordings/BE_0_0/vrs/recording.vrs`.
+
+### Inspect the VRS (fisheye RGB and SLAM cameras)
+
+`view_rerun` shows the anonymized RGB MP4, not the fisheye streams. To open `vrs/recording.vrs` itself, use Meta’s Aria Rerun viewer from `projectaria-tools` (already installed with `.[rerun]` or `.[vrs]`):
+
+```bash
+pip install -e ".[rerun]"   # or: pip install -e ".[vrs]"
+python -m projectaria_tools.tools.aria_rerun_viewer.aria_rerun_viewer \
+  --vrs ./slugtrails-1.0/recordings/BE_0_0/vrs/recording.vrs \
+  --enabled-streams camera-rgb camera-slam-left camera-slam-right \
+  --subsample-rates camera-rgb=10 camera-slam-left=10 camera-slam-right=10
+```
+
+Subsample is required for a smooth first look. Full-rate logging of a multi‑GB VRS will stall Rerun.
+
+### Undistort the VRS (SLAM cameras)
+
+For undistorted RGB, use `rgb/camera-rgb_undistorted.mp4` directly. Its blur was applied on the undistorted frames. Running the script on `camera-rgb` undistorts frames that were already blurred as fisheye, so it is a different video.
+
+The script is for an undistorted view of the already-blurred SLAM cameras (`camera-slam-left`, `camera-slam-right`):
+
+```bash
+pip install -e ".[vrs]"
+python -m slugtrails.undistort_vrs \
+  --vrs ./slugtrails-1.0/recordings/BE_0_0/vrs/recording.vrs \
+  --streams camera-slam-left camera-slam-right \
+  --out ./undistorted/BE_0_0
+```
+
+One stream at a time: `--streams camera-slam-left`. Each stream writes `{stream}_undistorted.mp4`, `{stream}_frame_timestamps.npy`, and `{stream}_intrinsics_undistorted.json` (undistorted intrinsics for that MP4). Aria Gen1 frames are rotated upright, the same way as the shipped RGB video.
 
 ---
 
